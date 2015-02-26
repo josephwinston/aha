@@ -17,7 +17,8 @@
  For feedback and questions about my Files and Projects please mail me,
  Alexander Matthes (Ziz) , zizsdl_at_googlemail.com
 */
-#define AHA_VERSION "0.4.7.1"
+#define AHA_VERSION "0.4.8.0"
+#define AHA_YEAR "2015"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -100,6 +101,9 @@ void deleteParse(pelem elem)
 	}
 }
 
+#define VERSION_PRINTF_MAKRO \
+	printf("\033[1;31mAnsi Html Adapter\033[0m Version "AHA_VERSION"\n");
+
 int main(int argc,char* args[])
 {
 	char* filename=NULL;
@@ -117,7 +121,7 @@ int main(int argc,char* args[])
 	{
 		if ((strcmp(args[p],(char*)"--help")==0) || (strcmp(args[p],(char*)"-h")==0) || (strcmp(args[p],(char*)"-?")==0))
 		{
-			printf("\033[1;31mAnsi Html Adapter\033[0m Version "AHA_VERSION"\n");
+			VERSION_PRINTF_MAKRO
 			printf("\033[1maha\033[0m takes SGR-colored Input and prints W3C conform HTML-Code\n");
 			printf("use: \033[1maha\033[0m <\033[4moptions\033[0m> [\033[4m-f file\033[0m]\n");
 			printf("     \033[1maha\033[0m (\033[4m--help\033[0m|\033[4m-h\033[0m|\033[4m-?\033[0m)\n");
@@ -138,7 +142,7 @@ int main(int argc,char* args[])
 			printf("                           useful for inclusion in full HTML files.\n");
 			printf("Example: \033[1maha\033[0m --help | \033[1maha\033[0m --black > aha-help.htm\n");
 			printf("         Writes this help text to the file aha-help.htm\n\n");
-			printf("Copyleft \033[1;32mAlexander Matthes\033[0m aka \033[4mZiz\033[0m 2012\n");
+			printf("Copyleft \033[1;32mAlexander Matthes\033[0m aka \033[4mZiz\033[0m "AHA_YEAR"\n");
 			printf("         \033[5;36mzizsdl@googlemail.com\033[0m\n");
 			printf("         \033[5;36mhttp://ziz.delphigl.com/tool_aha.php\033[0m\n");
 			printf("This application is subject to the \033[1;34mMPL\033[0m or \033[1;34mLGPL\033[0m.\n");
@@ -147,7 +151,7 @@ int main(int argc,char* args[])
 		else
 		if ((strcmp(args[p],(char*)"--version")==0) || (strcmp(args[p],(char*)"-v")==0))
 		{
-			printf("\033[1;31mAnsi Html Adapter\033[0m Version "AHA_VERSION"\n");
+			VERSION_PRINTF_MAKRO
 			return 0;
 		}
 		else
@@ -260,7 +264,7 @@ int main(int argc,char* args[])
 			}
 			if (colorshema!=1)
 			{
-				printf(".black     {color: black;}\n");
+				printf(".dimgray     {color: dimgray;}\n");
 				printf(".red       {color: red;}\n");
 				printf(".green     {color: green;}\n");
 				printf(".yellow    {color: olive;}\n");
@@ -279,7 +283,7 @@ int main(int argc,char* args[])
 			}
 			else
 			{
-				printf(".black     {color: black;}\n");
+				printf(".dimgray     {color: dimgray;}\n");
 				printf(".red       {color: red;}\n");
 				printf(".green     {color: lime;}\n");
 				printf(".yellow    {color: yellow;}\n");
@@ -337,7 +341,7 @@ int main(int argc,char* args[])
 	int temp;
 	while ((c=fgetc(fp)) != EOF)
 	{
-		if ((c=='\033'))
+		if (c=='\033')
 		{
 			//Saving old values
 			ofc=fc;
@@ -489,9 +493,9 @@ int main(int argc,char* args[])
 					switch (fc)
 					{
 						case	0: if (stylesheet)
-											 printf("black ");
+											 printf("dimgray ");
 										 else
-											 printf("color:black;");
+											 printf("color:dimgray;");
 										 break; //Black
 						case	1: if (stylesheet)
 											 printf("red ");
@@ -613,20 +617,26 @@ int main(int argc,char* args[])
 										 break; //Reset
 					}
 					if (ul)
+          {
 						if (stylesheet)
 							printf("underline ");
 						else
 							printf("text-decoration:underline;");
+          }
 					if (bo)
+          {
 						if (stylesheet)
 							printf("bold ");
 						else
 							printf("font-weight:bold;");
+          }
 					if (bl)
+          {
 						if (stylesheet)
 							printf("blink ");
 						else
 							printf("text-decoration:blink;");
+          }
 
 					printf("\">");
 				}
